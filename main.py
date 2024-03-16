@@ -122,6 +122,14 @@ class Game:
         score = font.render(f"Score: {self.snake.length}",True,(200,200,200))
         self.surface.blit(score,(850,10))
         
+    def collide_wall(self, x, y):
+        if x>=1000 or x<=0:
+            return True
+        elif y>=800 or y<=0:
+            return True
+        else: 
+            return False
+        
     def play(self):
         self.render_background()
         self.snake.walk()
@@ -140,6 +148,11 @@ class Game:
             if self.is_collision(self.snake.x[0], self.snake.y[0], self.snake.x[i], self.snake.y[i]):
                 self.play_sound('crash')
                 raise "Collision Occured"
+        
+        #Collision with walls
+        if self.collide_wall(self.snake.x[0], self.snake.y[0]):
+            self.play_sound('crash')
+            raise "Collision Occured"
             
     def show_game_over(self):
         self.render_background()
